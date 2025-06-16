@@ -5,7 +5,7 @@
  font-family: "Phetsarath ot", sans-serif;
 }
 .header{
-    @apply bg-amber-400
+    @apply bg-black text-white
 }
 .body{
     @apply flex flex-col  min-h-screen bg-red-300;
@@ -14,5 +14,16 @@
     @apply hover:text-blue-500 
 }
 .body i{
-    @apply w-[24px] mr-2
+    @apply w-[24px] mr-2 ml-2
+}
+.btn-group{
+    @apply flex justify-between text-sm
+}
+.button1{
+    @apply text-sm rounded-lg border-pink-950 border-2 px-2 hover:bg-blue-700
+
+}
+.button2{
+    @apply text-sm rounded-lg border-red-700 hover:bg-red-600 border-2 px-2 hover:text-blue-700
+
 }
