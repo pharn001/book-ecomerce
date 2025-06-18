@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { config } from "@/app/config";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Navigation from "./Navigation";
 
 export default function SideBar() {
   const [name, setName] = useState("");
@@ -74,24 +75,7 @@ export default function SideBar() {
           </div>
         </div>
       </div>
-      <div className="body">
-        <Link className="item" href="/dashboard">
-          <i className="fa-solid fa-house"></i>
-          bashboard
-        </Link>
-        <Link className="item" href="/book">
-          <i className="fa-solid fa-book-tanakh"></i>
-          ໜັງສື
-        </Link>
-        <Link className="item" href="/order">
-          <i className="fa-solid fa-list"></i>
-          ລາຍການ
-        </Link>
-        <Link className="item" href="/admin">
-          <i className="fa fa-user-cog"></i>
-          ຜູ້ໃຊ້ລະບົບ
-        </Link>
-      </div>
+     <Navigation/>
     </div>
   );
 }
