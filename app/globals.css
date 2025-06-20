@@ -13,9 +13,9 @@
 .body .item {
     @apply hover:text-blue-500 
 }
-.body i{
+/* .body i{
     @apply w-[24px] mr-2 ml-2
-}
+} */
 .btn-group{
     @apply flex justify-between text-sm
 }

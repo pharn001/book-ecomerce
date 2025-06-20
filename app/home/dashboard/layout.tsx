@@ -1,6 +1,9 @@
 "use client";
+import { Suspense } from "react";
 import "../../globals.css";
 import SideBar from "../component/sideBar";
+import Loading from "./loading";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -8,12 +11,14 @@ export default function RootLayout({
 }>) {
   return (
     
-        <div className="flex h-screen">
+        <div className="flex ">
           <div >            
               <SideBar />
           </div>
-          <div >
-            {children}
+          <div className="flex-1 m-2">
+            <Suspense fallback={<Loading />}>
+              {children}
+            </Suspense>
           </div>
           </div>
  

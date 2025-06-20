@@ -27,7 +27,7 @@ export default function SignInPage() {
       Swal.fire({
         icon: "error",
         title: "Sign In Failed",
-        text: "Please check your credentials and try again.",
+        text: error || "An error occurred during sign-in.",
       })
     }
   }

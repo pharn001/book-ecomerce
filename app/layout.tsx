@@ -1,10 +1,11 @@
 import "./globals.css";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay for loading effect
   return (
     <html lang="en">
       <head>
