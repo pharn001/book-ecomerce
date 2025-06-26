@@ -100,7 +100,7 @@ export default function SideBar() {
           <>
             <div className="flex items-center mb-4 p-3 bg-gray-700 rounded-lg">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 flex items-center justify-center text-white">
                   <i className="fas fa-user text-lg"></i>
                 </div>
                 <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-gray-700"></span>
@@ -131,8 +131,8 @@ export default function SideBar() {
         )}
       </div>
       
-      {/* Navigation Section */}
-      <div className="flex-1 overflow-y-auto">
+      {/* Navigation Section  */}
+      <div className="">
         <Navigation />
       </div>
       

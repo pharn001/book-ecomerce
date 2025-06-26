@@ -12,7 +12,7 @@ function Navigation() {
       {/* Logo/Branding Section */}
       {/* <div className="flex items-center justify-center mb-8 p-4">
         <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-300">
-          YourLogo
+          Logo
         </div>
       </div> */}
 
@@ -42,6 +42,7 @@ function Navigation() {
       {/* Menu Items */}
       {item.map((i, index) => {
         const hoverKey = `item-${index}`;
+        
         return (
           <Link
             key={index}

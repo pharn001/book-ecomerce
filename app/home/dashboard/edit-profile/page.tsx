@@ -1,5 +1,7 @@
 "use client"
-import React, { useState } from 'react';
+import { config } from '@/app/config';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 
@@ -26,9 +28,9 @@ function Page() {
     setIsSubmitting(true);
     
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    if (formData.password && formData.password !== formData.confirmPassword) {
+    // await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      if (formData.password && formData.password !== formData.confirmPassword) {
       Swal.fire({
         title: 'ຜິດພາດ!',
         text: 'ລະຫັດຜ່ານບໍ່ກົງກັນ',
@@ -45,35 +47,84 @@ function Page() {
         `
       });
       setIsSubmitting(false);
-      return;
+      return ;
     }
+     const headers ={
+        'Authorization': 'Bearer ' + localStorage.getItem(config.hoken)
+      }  
+    const url = config.defaulturl + `/api/admin/update`
+    const response = await axios.put(url,formData,{headers})
+    if( response.status == 200) {
+        Swal.fire({
+        title: 'ສຳເລັດ!',
+        text: 'ບັນທຶກຂໍ້ມູນສຳເລັດ',
+        icon: 'success',
+        background: '#1e293b',
+        color: '#fff',
+        confirmButtonColor: '#6366f1',
+        iconColor: '#a7f3d0',
+        showClass: {
+          popup: 'animate_animated animate_fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate_animated animate_fadeOutUp'
+        }
+      });
+    }
+    
+    console.log(formData)
 
-    Swal.fire({
-      title: 'ສຳເລັດ!',
-      text: 'ບັນທຶກຂໍ້ມູນສຳເລັດ',
-      icon: 'success',
-      background: '#1e293b',
-      color: '#fff',
-      confirmButtonColor: '#6366f1',
-      iconColor: '#a7f3d0',
-      showClass: {
-        popup: 'animate_animated animate_fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate_animated animate_fadeOutUp'
-      }
-    });
     setIsSubmitting(false);
+    } catch (error:any) {
+      Swal.fire({
+        title: 'ຜິດພາດ!',
+        text: 'ບໍ່ສາມາດປ່ຽນແປງໄດ້ ກະລຸນາລອງໃໝ່' + error,
+        icon: 'error',
+        background: '#1e293b',
+        color: '#fff',
+        confirmButtonColor: '#6366f1',
+        iconColor: '#f87171',
+      })
+    }
+    
   };
+
+  useEffect(() =>{
+    fetchUserData()
+  },[])
+  const  fetchUserData = async () =>{
+    try {
+      const url = config.defaulturl + `/api/admin/info`
+      const headers ={
+        'Authorization': 'Bearer ' + localStorage.getItem(config.hoken)
+      }  
+      const response = await axios.get(url,{headers});
+      if(response.status === 200){
+        const userData = response.data;
+        setFormData({
+          name: userData.name || '',
+          username: userData.username || '',
+          password: '',
+          confirmPassword: ''
+        })
+      }
+    } catch (err:any) {
+      Swal.fire({
+        title:'ຜິດພາດ!',
+        text: err.message,
+        icon: 'error',
+        timer: 3000,
+      })
+    }
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
       <div className="max-w-lg w-full bg-slate-800/50 backdrop-blur-lg rounded-2xl shadow-xl overflow-hidden border border-slate-700/50 animate_animated animate_fadeIn">
         <div className="p-8">
           <div className="text-center mb-8">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-indigo-500/20 mb-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+           
+              <i className="fa-regular fa-user text-indigo-400 h-8 w-8 text-3xl"></i>
             </div>
             <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-purple-300 mb-2">
               ແກ້ໄຂໂປຣໄຟລ໌
@@ -97,9 +148,8 @@ function Page() {
                   onChange={handleChange}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+                  <i className="fa fa-user h-5 w-5 text-slate-400" ></i>
+                 
                 </div>
               </div>
             </div>
@@ -119,9 +169,7 @@ function Page() {
                   onChange={handleChange}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
-                  </svg>
+                 <i className="fa-solid fa-address-card w-5 h-5 text-slate-400"></i>
                 </div>
               </div>
             </div>
@@ -141,9 +189,7 @@ function Page() {
                   onChange={handleChange}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
+                 <i className="fa-solid fa-lock w-5 h-5 text-slate-400"></i>
                 </div>
               </div>
               <p className="mt-1 text-xs text-slate-500">ຖ້າບໍ່ຕ້ອງການປ່ຽນ ບໍ່ຕ້ອງປ້ອນ</p>
@@ -164,9 +210,7 @@ function Page() {
                   onChange={handleChange}
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
+                 <i className="fa-solid fa-check w-5  h-5 text-slate-400"></i>
                 </div>
               </div>
               <p className="mt-1 text-xs text-slate-500">ຖ້າບໍ່ຕ້ອງການປ່ຽນ ບໍ່ຕ້ອງປ້ອນ</p>
