@@ -57,7 +57,7 @@ function Page() {
     if( response.status == 200) {
         Swal.fire({
         title: 'ສຳເລັດ!',
-        text: 'ບັນທຶກຂໍ້ມູນສຳເລັດ',
+        text: 'ແກ້ໄຂຂໍ້ມູນສຳເລັດ',
         icon: 'success',
         background: '#1e293b',
         color: '#fff',
