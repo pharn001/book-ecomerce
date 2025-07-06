@@ -27,3 +27,22 @@
     @apply text-sm rounded-lg border-red-700 hover:bg-red-600 border-2 px-2 hover:text-blue-700
 
 }
+.tablebody{
+    @apply bg-white divide-y divide-gray-200
+}
+.tabletd{
+    @apply px-6 py-4 whitespace-nowrap text-sm text-gray-500
+}
+.modal {
+    @apply fixed inset-0 z-50 overflow-y-auto  backdrop-blur-sm bg-black/30 transition-opacity
+}
+.modal-container {
+    @apply flex min-h-screen items-center justify-center p-4 text-center sm:block sm:p-0 
+}
+.modal-content {
+    @apply inline-block 
+    w-full transform overflow-hidden rounded-lg bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full
+}
+.modal-header{
+    @apply flex items-center  justify-between border-b text-white px-6 py-4 bg-gradient-to-b from-slate-900 to-slate-800  border-slate-700/50 
+}
