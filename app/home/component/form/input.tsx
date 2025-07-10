@@ -14,7 +14,7 @@ interface FormInputProps {
   icon?: string; // Optional icon class
 }
 
-const FormInput: React.FC<FormInputProps> = ({
+const Input: React.FC<FormInputProps> = ({
   label,
   name,
   type = 'text',
@@ -53,4 +53,4 @@ const FormInput: React.FC<FormInputProps> = ({
   );
 };
 
-export default FormInput;
+export default Input;

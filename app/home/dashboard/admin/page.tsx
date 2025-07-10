@@ -1,53 +1,42 @@
 "use client";
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { config } from "@/app/config";
+import React,{useState} from "react";
+import { AdminData, useAdminData } from "./hook/useAdminData";
+import { useAdminForm } from "./hook/useAdminForm";
+import AdminTable from "@/app/home/component/AdminTable";
+import AdminForm from "@/app/home/component/AdminForm";
 import Swal from "sweetalert2";
-import Modal from "../../component/modal";
 
-interface AdminData {
-  id: string;
-  name: string;
-  username: string;
-  level: string;
-}
 
 function Admin() {
-  const [data, setData] = useState<AdminData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  useEffect(() => {
+  const { data, loading, error, fetchData } = useAdminData();
+  const {
+    formData,
+    setFormData,
+    setEditMode,
+    resetForm,
+    handleSubmit,
+    isEditMode,
+    isSubmitting,
+  } = useAdminForm(() => {
     fetchData();
-  }, []);
+    setModalOpen(false);
+  });
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const url = `${config.defaulturl}/api/admin/list`;
-      const response = await axios.get(url);
+  const openModal = () => setModalOpen(true);
 
-      if (response.status === 200) {
-        setData(response.data);
-      }
-    } catch (err: any) {
-      setError(err.message || "Failed to fetch data");
-      Swal.fire({
-        title: "Error",
-        text: err.message || "Something went wrong",
-        icon: "error",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-  const openModal = () => {
-    setModalOpen(true);
-  };
   const closeModal = () => {
     setModalOpen(false);
+    resetForm();
   };
+
+  const handleEdit = (admin: AdminData) => {
+    setEditMode(admin);
+    openModal();
+  };
+const handleDelete = async (admin: any) => {
+ handleDelete(admin);
+}
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-md p-6">
@@ -62,81 +51,24 @@ function Admin() {
           </button>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center py-10 text-red-500">{error}</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Username
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Level
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="tablebody">
-                {data.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {item.name}
-                    </td>
-                    <td className="tabletd">{item.username}</td>
-                    <td className="tabletd">{item.level}</td>
-                    <td className="tabletd">
-                      <button className="text-blue-600 hover:text-blue-800 mr-2">
-                        <i className="fa fa-edit"></i> Edit
-                      </button>
-                      <button className="text-red-600 hover:text-red-800">
-                        <i className="fa fa-trash"></i> Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+        <AdminTable
+          onDelete={handleDelete}
+          data={data}
+          loading={loading}
+          error={error}
+          onEdit={handleEdit}
+        />
 
-      {modalOpen && (
-        <Modal onClose={closeModal} title="Add Admin" size="sm">
-          <form className="">
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ຊື່</label>
-              <input type="text" name="" id="" placeholder="ປ້ອນຊື່ຜູ້ນຳໃຊ້" />
-            </div>
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ຊື່ຜູ້ນຳໃຊ້</label>
-              <input type="text" name="" id="" placeholder="ປ້ອນຊື່ຜູ້ນຳໃຊ້" />
-            </div>
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ລະດັດ</label>
-              <select name="" id="">
-                <option value="Administrator">Admin</option>
-                <option value="user">User</option>
-                <option value="superadmin">Super Admin</option>
-              </select>
-            </div>
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ຊືີ່</label>
-              <input type="text" name="" id="" placeholder="ປ້ອນຊື່ຜູ້ນຳໃຊ້" />
-            </div>
-          </form>
-        </Modal>
-      )}
+        <AdminForm
+          isSubmitting={isSubmitting}
+          isOpen={modalOpen}
+          onClose={closeModal}
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleSubmit}
+          isEditing={isEditMode}
+        />
+      </div>
     </div>
   );
 }

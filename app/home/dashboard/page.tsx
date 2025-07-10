@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import FormInput from "../component/form/input";
+import Input from "../component/form/input";
 
 export default function DashboardPage() {
     const [formData, setFormData] = useState({
@@ -17,9 +17,10 @@ export default function DashboardPage() {
       <div className=" bg-gray-100  w-[300px] h-[300px] flex items-center justify-center ">
         <i className="fa-solid fa-circle-notch text-gray-700 text-[40px] animate-spin"></i>
       </div>
-      <FormInput 
-       label="Name"
+      <Input 
+        label="Name"
         name="name"
+        required={true}
         value={formData.name}
         icon="fa-solid fa-user"
         onChange={handleChange}
