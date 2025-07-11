@@ -95,7 +95,7 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
     const handledelete = async (admin: any) => {
         const button = await Swal.fire({
             title: "ລົບຜູ້ໃຊ້ງານ",
-            text: "ຕ້ອງການລົບຜູ້ໃຊ້ງານຊື່: " + admin + "ຫຼືບໍ່?",
+            text: "ຕ້ອງການລົບຜູ້ໃຊ້ງານຊື່: " + admin.name + "ຫຼືບໍ່?",
             icon: "question",
             showConfirmButton: true,
             showCancelButton: true,
@@ -103,7 +103,7 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
         });
         if (button.isConfirmed) {
             try {
-                const url = `${config.defaulturl}/api/admin/delete/${admin.id}`;
+                const url = `${config.defaulturl}/api/admin/delete/${admin}`;
                 const response = await axios.delete(url)
                 if (response.status === 200){
                     Swal.fire({

@@ -17,7 +17,7 @@ function Admin() {
     resetForm,
     handleSubmit,
     isEditMode,
-    isSubmitting,
+    isSubmitting,handledelete
   } = useAdminForm(() => {
     fetchData();
     setModalOpen(false);
@@ -35,7 +35,7 @@ function Admin() {
     openModal();
   };
 const handleDelete = async (admin: any) => {
- handleDelete(admin);
+ handledelete(admin);
 }
   return (
     <div className="min-h-screen bg-gray-50 p-6">
