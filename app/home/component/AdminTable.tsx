@@ -6,7 +6,7 @@ interface AdminTableProps {
     loading: boolean;
     error: string | null;
     onEdit:(admin: AdminData) => void;
-    onDelete:(id:string) => void;
+    onDelete:(admin:AdminData) => void;
 }
 
 const AdminTable :React.FC<AdminTableProps> = ({
@@ -62,7 +62,7 @@ const AdminTable :React.FC<AdminTableProps> = ({
                                 <i className="fa fa-edit"></i> Edit
                               </button>
                               <button className="text-red-600 hover:text-red-800"
-                               onClick={() => onDelete(item.id)}
+                               onClick={() => onDelete(item)}
                               >
                                 <i className="fa fa-trash"></i> Delete
                               </button>

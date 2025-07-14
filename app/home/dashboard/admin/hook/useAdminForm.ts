@@ -63,7 +63,7 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
                 password: formData.password,
             };
             const isCreate = editeId === "";
-            const url = `${config.defaulturl}/api/admin/${isCreate ? "create" : "update-data"}`;
+            const url = `${config.defaulturl}/api/admin/${isCreate ? "create" : `update-data/${editeId}`}`;
             const responseData = isCreate ? payload : { ...payload, id: editeId };
             const response = isCreate
                 ? await axios.post(url, responseData)
@@ -93,24 +93,32 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
         }
     }
     const handledelete = async (admin: any) => {
+        console.log(admin)
+      
         const button = await Swal.fire({
             title: "ລົບຜູ້ໃຊ້ງານ",
-            text: "ຕ້ອງການລົບຜູ້ໃຊ້ງານຊື່: " + admin.name + "ຫຼືບໍ່?",
+            text: "ຕ້ອງການລົບຜູ້ໃຊ້ງານຊື່: " + admin.name + " ຫຼືບໍ່?",
             icon: "question",
             showConfirmButton: true,
             showCancelButton: true,
-            timer: 1500
+           
         });
         if (button.isConfirmed) {
             try {
-                const url = `${config.defaulturl}/api/admin/delete/${admin}`;
+                const url = `${config.defaulturl}/api/admin/remove/${admin.id}`;
                 const response = await axios.delete(url)
                 if (response.status === 200){
                     Swal.fire({
                         title: "ສໍາເລັດ",
                         text: "ລົບຜູ້ໃຊ້ງານສໍາເລັດ",
                         icon: "success"
-                    });                  
+                    });   
+                    onSuccess({
+                        id: admin.id,
+                        name: admin.name,
+                        username: admin.username,
+                        level: admin.level,
+                    });               
                 }
             } catch (error: any) {
                 Swal.fire({
@@ -125,10 +133,10 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
         //State Values
         isSubmitting,
         formData,
-        setFormData,
-        resetForm,
         editeId,
         // Functions
+        setFormData,
+        resetForm,
         setEditMode,
         validateForm,
         handleSubmit,

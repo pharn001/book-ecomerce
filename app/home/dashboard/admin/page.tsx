@@ -34,7 +34,7 @@ function Admin() {
     setEditMode(admin);
     openModal();
   };
-const handleDelete = async (admin: any) => {
+const handleDelete = async (admin:any) => {
  handledelete(admin);
 }
   return (
