@@ -1,149 +1,193 @@
 "use client";
-
+import { config } from "@/app/config";
+import { BookInterface } from "@/app/interface/book";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { config } from "@/app/config";
 import Swal from "sweetalert2";
+import Button from "../../component/form/button";
 import Modal from "../../component/modal";
+import Input from "../../component/form/input";
 
-interface AdminData {
-  id: string;
-  name: string;
-  username: string;
-  level: string;
-}
-
-function Admin() {
-  const [data, setData] = useState<AdminData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+function page() {
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const [books, setBooks] = useState<BookInterface[]>([]);
+  const [id, setId] = useState("");
+  const [price, setPrice] = useState<number>(0);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [isbn, setIsbn] = useState("");
+  const [modal, setModal] = useState<boolean>(false);
   useEffect(() => {
-    fetchData();
+    factdata();
   }, []);
-
-  const fetchData = async () => {
+  const factdata = async () => {
     try {
-      setLoading(true);
-      const url = `${config.defaulturl}/api/admin/list`;
+      const url = `${config.defaulturl}/api/book`;
       const response = await axios.get(url);
-
       if (response.status === 200) {
-        setData(response.data);
+        setBooks(response.data);
       }
-    } catch (err: any) {
-      setError(err.message || "Failed to fetch data");
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: error.message,
+        text: "Something went wrong!",
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  const hadlesubmit = async () => {
+    try {
+      setIsSubmit(true);
+      const url = config.defaulturl + "/api/book";
+      const payload = {
+        isdn: isbn,
+        name: name,
+        price: price,
+        description: description,
+      };
+      const response = await axios.post(url, payload);
+      if (response.status === 200) {
+        Swal.fire({
+          title: "success",
+          text: "insert Successfully!",
+          icon: "success",
+          showConfirmButton: false,
+          timer:1000
+        });
+        setIsSubmit(false);
+        factdata();
+        closeModal();
+        setIsbn("");
+        setName("");
+        setPrice(0);
+        setDescription("");
+      }
+      console.log(response.status);
+    } catch (error: any) {
       Swal.fire({
         title: "Error",
-        text: err.message || "Something went wrong",
+        text: error.message,
         icon: "error",
       });
-    } finally {
-      setLoading(false);
+      setIsSubmit(false);
     }
   };
   const openModal = () => {
-    setModalOpen(true);
+    setModal(true);
   };
   const closeModal = () => {
-    setModalOpen(false);
+    setModal(false);
   };
-  const handleEdit = (id: string) => {
-    // Handle edit logic here
-    setModalOpen(true);
-    console.log("Edit admin with ID:", id);
-  };
+  function deletebook(e:string) {
+   try {
+    console.log(e)
+   } catch (error:any) {
+    Swal.fire({
+      title:"error",
+      text:error.message,
+      icon:"error"
+    })
+   }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-md p-6">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-800">Admin Management</h1>
-          <button
-            onClick={openModal}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center transition-colors"
-          >
-            <i className="fa fa-plus mr-2"></i>
-            Add Admin
-          </button>
-        </div>
-
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : error ? (
-          <div className="text-center py-10 text-red-500">{error}</div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Name
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Username
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Level
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="tablebody">
-                {data.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {item.name}
-                    </td>
-                    <td className="tabletd">{item.username}</td>
-                    <td className="tabletd">{item.level}</td>
-                    <td className="tabletd">
-                      <button className="text-blue-600 hover:text-blue-800 mr-2">
-                        <i className="fa fa-edit" onClick={handleEdit}></i> Edit
-                      </button>
-                      <button className="text-red-600 hover:text-red-800">
-                        <i className="fa fa-trash"></i> Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+    <div>
+      <div className="header">
+        <h1 className="text-2xl font-bold">Book</h1>
+        <Button className="" label="Add Book" onClick={openModal} />
       </div>
-
-      {modalOpen && (
-        <Modal onClose={closeModal} title="Add Admin" size="sm">
-          <form className="">
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ຊື່</label>
-              <input type="text" name="" id="" placeholder="ປ້ອນຊື່ຜູ້ນຳໃຊ້" />
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                isbn
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ຊື່ໜັງສື
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ລາຄາ
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ລາຍລະອຽດ
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                action
+              </th>
+            </tr>
+          </thead>
+          <tbody className="tablebody">
+            {books.map((book: BookInterface) => (
+              <tr key={book.id}>
+                <td className="tabletd">{book.isdn}</td>
+                <td className="tabletd">{book.name}</td>
+                <td className="tabletd">{book.description}</td>
+                <td className="tabletd">{book.price.toLocaleString()}</td>
+                <td>
+                  <div className="">
+                    <button className="text-blue-600   mr-2">
+                      <i className="fa fa-edit"></i>
+                      edit
+                    </button>
+                    <button className="text-red-700  " onClick={()=>deletebook(book.id)}>
+                      <i className="fa fa-trash"></i>
+                      delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {modal ? (
+        <Modal onClose={closeModal} title="ນັງສື" size="sm">
+          <form action="">
+            <div className="space-y-4">
+              <Input
+                label="isbn"
+                name="isbn"
+                value={isbn}
+                onChange={(e) => setIsbn(e.target.value)}
+                placeholder="ກະລຸນາປ້ອນ isbn"
+              />
             </div>
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ຊື່ຜູ້ນຳໃຊ້</label>
-              <input type="text" name="" id="" placeholder="ປ້ອນຊື່ຜູ້ນຳໃຊ້" />
+            <div className="space-y-4">
+              <Input
+                label="name"
+                name="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ລະດັດ</label>
-              <select name="" id="">
-                <option value="Administrator">Admin</option>
-                <option value="user">User</option>
-                <option value="superadmin">Super Admin</option>
-              </select>
+            <div className="space-y-4">
+              <Input
+                label="price"
+                type="number"
+                name="price"
+                value={price}
+                onChange={(e) => setPrice(Number(e.target.value))}
+              />
             </div>
-            <div className="space-y-1 mb-4">
-              <label htmlFor="">ຊືີ່</label>
-              <input type="text" name="" id="" placeholder="ປ້ອນຊື່ຜູ້ນຳໃຊ້" />
+            <div className="space-y-4">
+              <Input
+                label="description"
+                name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+            <div className="button">
+              <Button label="save" onClick={hadlesubmit} disabled={isSubmit} />
             </div>
           </form>
         </Modal>
-      )}
+      ) : null}
     </div>
   );
 }
 
-export default Admin;
+export default page;
