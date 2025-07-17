@@ -5,7 +5,7 @@
  font-family: "Phetsarath ot", sans-serif;
 }
 .header{
-    @apply bg-black text-white
+    @apply flex justify-between items-center mb-8
 }
 .body{
     @apply flex flex-col  min-h-screen bg-red-300;
