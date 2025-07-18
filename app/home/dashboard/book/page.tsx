@@ -1,26 +1,27 @@
 "use client";
-import { config } from "@/app/config";
-import { BookInterface } from "@/app/interface/book";
+import  { useState } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { config } from "@/app/config";
+import { usedatabook } from "./hook/usedatabook";
 import Button from "../../component/form/button";
 import Modal from "../../component/modal";
 import Input from "../../component/form/input";
-
+import Swal from "sweetalert2";
+import { BookInterface } from "@/app/interface/book";
 function page() {
-  const [loading, setLoading] = useState<boolean>(true)
+
+const { loading, setLoading, books, setBooks }=usedatabook();
+
+  
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [books, setBooks] = useState<BookInterface[]>([]);
+  
   const [id, setId] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isbn, setIsbn] = useState("");
   const [modal, setModal] = useState<boolean>(false);
-  useEffect(() => {
-    factdata();
-  }, []);
+
   const factdata = async () => {
     try {
       setLoading(true);
