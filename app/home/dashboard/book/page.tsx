@@ -197,7 +197,7 @@ function page() {
                 />
               </div>
               <div className="button">
-                <Button label="save" onClick={hadlesubmit} disabled={isSubmit} />
+                <Button label="save" onClick={hadlesubmit} disabled={isSubmit} icon="fa fa-plus"/>
               </div>
             </form>
           </Modal>

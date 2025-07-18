@@ -4,6 +4,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
+  icon?:string;
 }
 
 const Button = ({
@@ -12,6 +13,7 @@ const Button = ({
   className = "",
   type,
   onClick,
+  icon='fa-solid fa-user-pen',
 }: ButtonProps) => {
   return (
     <button
@@ -27,7 +29,7 @@ const Button = ({
         </div>
       ):(
         <div className="">
-            <i className="fa-solid fa-user-pen mr-2"></i>{label}
+            <i className={`${icon} mr-2`} ></i>{label}
         </div>
       )}
       
