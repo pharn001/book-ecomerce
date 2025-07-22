@@ -33,7 +33,7 @@ const AdminForm: React.FC<AdminFormProps> = ({
   };
  
     return(
-        <Modal onClose={onClose} title="Admin Form">
+        <Modal onClose={onClose} title={isEditing ? "ແກ້ໄຂ Admin" : "ເພີ່ມ Admin"} size="md">
          <form className="space-y-4" >
         <Input
           label="ຊື່"

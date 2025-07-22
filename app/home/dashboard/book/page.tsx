@@ -9,7 +9,7 @@ import Modal from "../../component/modal";
 import Input from "../../component/form/input";
 
 function page() {
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [books, setBooks] = useState<BookInterface[]>([]);
   const [id, setId] = useState("");
@@ -17,6 +17,7 @@ function page() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isbn, setIsbn] = useState("");
+  const [imgfile, setImgfile] = useState<File | null>();
   const [modal, setModal] = useState<boolean>(false);
   useEffect(() => {
     factdata();
@@ -37,29 +38,37 @@ function page() {
         showConfirmButton: false,
       });
       setLoading(false);
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   const hadlesubmit = async () => {
     try {
       setIsSubmit(true);
+      const data  = new FormData();
+     
+        data.append("image", imgfile as Blob);
+        data.append("name", name);
+        data.append("price", price.toString());
+        data.append("description", description);
+        data.append("isdn", isbn);
+
+     
+      const isCreate = id === "";
       const url = config.defaulturl + "/api/book";
-      const payload = {
-        isdn: isbn,
-        name: name,
-        price: price,
-        description: description,
-      };
-      const response = await axios.post(url, payload);
+      
+      const response = isCreate
+        ? await axios.post(url, data)
+        : await axios.put(`${url}/${id}`, data);
+
       if (response.status === 200) {
         Swal.fire({
           title: "success",
-          text: "insert Successfully!",
+          text: " Successfully!",
           icon: "success",
           showConfirmButton: false,
-          timer: 1000
+          timer: 1000,
         });
         setIsSubmit(false);
         factdata();
@@ -84,19 +93,58 @@ function page() {
   };
   const closeModal = () => {
     setModal(false);
+    setIsbn("");
+    setName("");
+    setPrice(0);
+    setDescription("");
   };
-  function deletebook(e: string) {
+const deletebook = async (e: string)=> {
     try {
-      console.log(e)
+    const button = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    })
+    if (!button.isConfirmed) return;
+     const url = `${config.defaulturl}/api/book/${e}`;
+      const response = await axios.delete(url);
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        factdata();
+      }
     } catch (error: any) {
       Swal.fire({
         title: "error",
         text: error.message,
-        icon: "error"
-      })
+        icon: "error",
+      });
     }
   }
-
+  const handledit = (book: BookInterface) => {
+    setId(book.id);
+    setIsbn(book.isdn ?? "");
+    setName(book.name);
+    setPrice(book.price);
+    setDescription(book.description ?? "");
+    setModal(true);
+  };
+  const choosefile = (files: File[]) => {
+    if (files.length > 0) {
+      setImgfile(files[0]);
+      console.log(files);
+    }
+  };
+ 
   return (
     <div className="h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto rounded-lg shadow-lg p-6">
@@ -132,8 +180,6 @@ function page() {
                 </tr>
               </thead>
               <tbody className="tablebody">
-
-
                 {books.map((book: BookInterface) => (
                   <tr key={book.id}>
                     <td className="tabletd">{book.isdn}</td>
@@ -142,11 +188,18 @@ function page() {
                     <td className="tabletd">{book.price.toLocaleString()}</td>
                     <td>
                       <div className="">
-                        <button className="text-blue-600   mr-2">
+                        <button
+                          className="text-blue-600   mr-2"
+                          onClick={(e) => handledit(book)}
+                        >
                           <i className="fa fa-edit"></i>
                           edit
                         </button>
-                        <button className="text-red-700  " onClick={() => deletebook(book.id)}>
+
+                        <button
+                          className="text-red-700  "
+                          onClick={() => deletebook(book.id)}
+                        >
                           <i className="fa fa-trash"></i>
                           delete
                         </button>
@@ -195,15 +248,25 @@ function page() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                <Input
+                  label="imgfile"
+                  name="imgfile"
+                  type="file"
+                  onChange={(e) => choosefile(e.target.files)}
+                />
               </div>
               <div className="button">
-                <Button label="save" onClick={hadlesubmit} disabled={isSubmit} icon="fa fa-plus"/>
+                <Button
+                  label="save"
+                  onClick={hadlesubmit}
+                  disabled={isSubmit}
+                  icon="fa fa-plus"
+                />
               </div>
             </form>
           </Modal>
         ) : null}
       </div>
-
     </div>
   );
 }
