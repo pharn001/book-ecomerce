@@ -19,6 +19,7 @@ function page() {
   const [isbn, setIsbn] = useState("");
   const [imgfile, setImgfile] = useState<File | null>();
   const [modal, setModal] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string>("");
   useEffect(() => {
     factdata();
   }, []);
@@ -97,6 +98,8 @@ function page() {
     setName("");
     setPrice(0);
     setDescription("");
+    setImageUrl("");
+    setId("");
   };
 const deletebook = async (e: string)=> {
     try {
@@ -137,8 +140,9 @@ const deletebook = async (e: string)=> {
     setPrice(book.price);
     setDescription(book.description ?? "");
     setModal(true);
+    setImageUrl(book.image as string);
   };
-  const choosefile = (files: File[]) => {
+  const choosefile = (files: any) => {
     if (files.length > 0) {
       setImgfile(files[0]);
       console.log(files);
@@ -163,6 +167,9 @@ const deletebook = async (e: string)=> {
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ຮູບພາບ
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     isbn
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -182,6 +189,17 @@ const deletebook = async (e: string)=> {
               <tbody className="tablebody">
                 {books.map((book: BookInterface) => (
                   <tr key={book.id}>
+                    <td className="tabletd">
+                      {book.image ? (
+                        <img
+                          src={`${config.defaulturl}/public/upload/${book.image}`}
+                          alt={book.name}
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                      ) : (
+                        <i className="fa fa-image text-6xl"></i>
+                      )}
+                    </td>
                     <td className="tabletd">{book.isdn}</td>
                     <td className="tabletd">{book.name}</td>
                     <td className="tabletd">{book.description}</td>
@@ -248,11 +266,21 @@ const deletebook = async (e: string)=> {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                
+              </div>
+              <div className="space-y-4">
+               {imageUrl ? (
+                <img
+                  src={`${config.defaulturl}/public/upload/${imageUrl}`}
+                  alt="Book Cover"
+                  className="w-16 h-16 object-cover rounded mb-2"
+                />
+               ) :null}
                 <Input
-                  label="imgfile"
+                  label="ຮູບພາບ"
                   name="imgfile"
                   type="file"
-                  onChange={(e) => choosefile(e.target.files)}
+                  onChange={(e) => choosefile(e.target.files )}
                 />
               </div>
               <div className="button">

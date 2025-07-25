@@ -3,11 +3,11 @@
 import React from 'react';
 
 interface FormInputProps {
-  label?: string;
-  name: string;
+  label: string;
+  name?: string;
   type?: string;
   value?: string | number ; 
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
   className?: string;
