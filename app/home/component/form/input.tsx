@@ -3,15 +3,16 @@
 import React from 'react';
 
 interface FormInputProps {
-  label?: string;
-  name: string;
+  label: string;
+  name?: string;
   type?: string;
-  value: string | number ; 
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string | number ; 
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   required?: boolean;
   className?: string;
   icon?: string; // Optional icon class
+  accept?:string; // Optional accept attribute for file inputs
 }
 
 const Input: React.FC<FormInputProps> = ({
@@ -42,10 +43,11 @@ const Input: React.FC<FormInputProps> = ({
           id={name}
           name={name}
           type={type}
-          value={value}
+          value={type !== 'file' ? value : undefined} // For file inputs, value should not be set
           onChange={onChange}
           placeholder={placeholder}
           required={required}
+          accept={type === 'file' ? 'image/*' : undefined} // Set accept attribute for file inputs
           className={`border px-3 py-2 rounded w-full ${icon ? 'pl-10' : ''} ${className}`}
         />
       </div>
