@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "./globals.css";
 
 export default async function RootLayout({
@@ -16,10 +17,11 @@ export default async function RootLayout({
     referrerPolicy="no-referrer" />
 
       </head>
-      <body
-        
-      >
-        {children}
+      <body>
+        <main>
+            {children}
+          
+        </main>
       </body>
     </html>
   );

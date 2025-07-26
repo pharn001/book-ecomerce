@@ -7,11 +7,12 @@ import Swal from "sweetalert2";
 import Button from "../../component/form/button";
 import Modal from "../../component/modal";
 import Input from "../../component/form/input";
+import { useDataBook } from "./hook/usedataBook";
 
 function page() {
-  const [loading, setLoading] = useState<boolean>(true);
+  
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const [books, setBooks] = useState<BookInterface[]>([]);
+
   const [id, setId] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [name, setName] = useState("");
@@ -20,30 +21,13 @@ function page() {
   const [imgfile, setImgfile] = useState<File | null>();
   const [modal, setModal] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
+
+const { book, loading, error,factdata } = useDataBook();
+
   useEffect(() => {
     factdata();
   }, []);
-  const factdata = async () => {
-    try {
-      setLoading(true);
-      const url = `${config.defaulturl}/api/book`;
-      const response = await axios.get(url);
-      if (response.status === 200) {
-        setBooks(response.data);
-      }
-    } catch (error: any) {
-      Swal.fire({
-        icon: "error",
-        title: error.message,
-        text: "Something went wrong!",
-        showConfirmButton: false,
-      });
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  
   const hadlesubmit = async () => {
     try {
       setIsSubmit(true);
@@ -187,7 +171,7 @@ const deletebook = async (e: string)=> {
                 </tr>
               </thead>
               <tbody className="tablebody">
-                {books.map((book: BookInterface) => (
+                {book.map((book: BookInterface) => (
                   <tr key={book.id}>
                     <td className="tabletd">
                       {book.image ? (
