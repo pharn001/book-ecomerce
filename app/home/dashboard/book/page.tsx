@@ -1,26 +1,21 @@
 "use client";
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "@/app/config";
 import { usedatabook } from "./hook/usedatabook";
 import Button from "../../component/form/button";
 import Modal from "../../component/modal";
 import Input from "../../component/form/input";
-<<<<<<< HEAD
-import { useDataBook } from "./hook/usedataBook";
-
-=======
 import Swal from "sweetalert2";
 import { BookInterface } from "@/app/interface/book";
->>>>>>> 8bd5664d13f3d19ef786a95bd5ebad3e7a6620a2
+
 function page() {
   
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> 8bd5664d13f3d19ef786a95bd5ebad3e7a6620a2
+
+
+
   const [id, setId] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [name, setName] = useState("");
@@ -30,7 +25,7 @@ function page() {
   const [modal, setModal] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
 
-const { book, loading, error,factdata } = useDataBook();
+const { books, loading,factdata } = usedatabook();
 
   useEffect(() => {
     factdata();
@@ -179,7 +174,7 @@ const deletebook = async (e: string)=> {
                 </tr>
               </thead>
               <tbody className="tablebody">
-                {book.map((book: BookInterface) => (
+                {books.map((book: BookInterface) => (
                   <tr key={book.id}>
                     <td className="tabletd">
                       {book.image ? (

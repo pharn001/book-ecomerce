@@ -1,19 +1,20 @@
 "use client";
 
 import { config } from "@/app/config";
-import { usedatabook } from "@/app/home/dashboard/book/hook/usedataBook";
+
 import { BookInterface } from "@/app/interface/book";
 import { useEffect, useState } from "react";
 import { cartInterface } from "../interface/Cart";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Link from "next/link";
+import { usedatabook } from "../home/dashboard/book/hook/usedatabook";
 export default function Home() {
   const { books, loading ,factdata} = usedatabook();
   const [token, setToken] = useState("");
   const [meberId, setMemberId] = useState("");
   const [cats, setCats] = useState<cartInterface[]>([]);
-  const [qtyCart, setQtyCart] = useState(0);
+  const [qtyCart, setQtyCart] = useState(0); 
   useEffect(() => {
     readToken();
     factdata();
@@ -106,7 +107,7 @@ export default function Home() {
         <div className="text-right">ສິນຄ້າໃນກະຕ່າ =​ {cats.length}</div>
         <div className="text-right">ຈຳນວນສິນຄ້າ =​ {qtyCart}</div>
         <Link
-          href="/web/memeber/cart"
+          href="/web/member/cart"
           className="text-right  px-2 py-3 rounded-lg bg-white shadow-md transition-colors duration-300 flex items-center justify-center"
         >
           <i className="fa fa-shopping-cart"></i> ກະຕ່າຂອງຂໍ້ມູນ
