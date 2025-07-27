@@ -1,7 +1,7 @@
 "use client";
 
 import { config } from "@/app/config";
-import { useDataBook } from "@/app/home/dashboard/book/hook/usedataBook";
+import { usedatabook } from "@/app/home/dashboard/book/hook/usedataBook";
 import { BookInterface } from "@/app/interface/book";
 import { useEffect, useState } from "react";
 import { cartInterface } from "../interface/Cart";
@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import Link from "next/link";
 export default function Home() {
-  const { book, loading, error, factdata } = useDataBook();
+  const { books, loading ,factdata} = usedatabook();
   const [token, setToken] = useState("");
   const [meberId, setMemberId] = useState("");
   const [cats, setCats] = useState<cartInterface[]>([]);
@@ -119,7 +119,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {book.map((book: BookInterface) => (
+            {books.map((book: BookInterface) => (
               <div
                 key={book.id}
                 className="bg-white border border-gray-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 transform "

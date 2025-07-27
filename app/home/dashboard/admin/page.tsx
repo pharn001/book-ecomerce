@@ -4,8 +4,6 @@ import { AdminData, useAdminData } from "./hook/useAdminData";
 import { useAdminForm } from "./hook/useAdminForm";
 import AdminTable from "@/app/home/component/AdminTable";
 import AdminForm from "@/app/home/component/AdminForm";
-import Swal from "sweetalert2";
-
 
 function Admin() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);

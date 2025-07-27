@@ -1,18 +1,26 @@
 "use client";
-import { config } from "@/app/config";
-import { BookInterface } from "@/app/interface/book";
+import  { useState } from "react";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { config } from "@/app/config";
+import { usedatabook } from "./hook/usedatabook";
 import Button from "../../component/form/button";
 import Modal from "../../component/modal";
 import Input from "../../component/form/input";
+<<<<<<< HEAD
 import { useDataBook } from "./hook/usedataBook";
 
+=======
+import Swal from "sweetalert2";
+import { BookInterface } from "@/app/interface/book";
+>>>>>>> 8bd5664d13f3d19ef786a95bd5ebad3e7a6620a2
 function page() {
   
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> 8bd5664d13f3d19ef786a95bd5ebad3e7a6620a2
   const [id, setId] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [name, setName] = useState("");
