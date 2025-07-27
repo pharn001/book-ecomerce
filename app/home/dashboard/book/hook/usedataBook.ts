@@ -11,15 +11,18 @@ export const useDataBook =  () => {
     
     const factdata = async ()=>{
         try {
+            setLoading(true);
+            setError(null);
            const url = config.defaulturl+"/api/book";
            const response = await axios.get(url);
               if (response.status === 200) {
                 setBook(response.data);
-                
+                setLoading(false);
               }
 
         } catch (err:any) {
             setError(err.message);
+            setLoading(false);
             Swal.fire({
                 icon: "error",
                 title: err.message,

@@ -17,6 +17,7 @@ function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         try {
             if (formData.password !== formData.confirmPassword) {
                 Swal.fire({
@@ -24,6 +25,7 @@ function RegisterPage() {
                     text: 'ລະຫັດຜ່ານ ແລະ ລະຫັດຍືນ ບໍ່ຕົງກັນ',
                     icon: 'error',
                 });
+                setLoading(false);
                 return;
             }
 
@@ -35,7 +37,7 @@ function RegisterPage() {
             }
 
             const response = await axios.post(url, payload);
-            if (response.data.status === 200) {
+            if (response.status === 200) {
                 Swal.fire({
                     title: 'ສຳເລັດ',
                     text: 'ທ່ານໄດ້ລົງທະບຽນແລ້ວ',
