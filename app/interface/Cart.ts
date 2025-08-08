@@ -1,7 +1,7 @@
 import { BookInterface } from "./book";
 
 export interface cartInterface{
-    id:number;
+    id:string;
     member_id:string; 
     book_id:string;
     qty:number;
