@@ -21,6 +21,7 @@ function Page() {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [file,setFile]=useState<File|null>(null)
   // แยกฟังก์ชันคำนวณยอดรวมออกมา และไม่ต้องใช้ loading state
   const computeTotalAmount = useCallback(() => {
     const total = carts.reduce(
@@ -211,7 +212,12 @@ function Page() {
 
   const handlesave = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
+    await handleupdateMember();
+    await  handleUploadfile();
+    await handleOrder()
+  };
+  const handleupdateMember = async()=>{
+     try {
       const url = config.defaulturl + "/api/cart/confrim";
       const headers = {
         Authorization: "Bearer " + localStorage.getItem(config.hoken_memter),
@@ -223,7 +229,7 @@ function Page() {
       };
       const respone = await axios.post(url, payload, { headers });
       if (respone.status === 200) {
-        handleUploadfile();
+      
         Swal.fire({
           title:"success",
           icon:"success",
@@ -237,8 +243,11 @@ function Page() {
         icon: "error",
       });
     }
-  };
-  const handleUploadfile = () => {
+  }
+  const handleChooseFile= (files:any) => {
+    if(files.length > 0){
+      setFile(files[0]);
+    }
     try {
     } catch (e: any) {
       Swal.fire({
@@ -248,6 +257,33 @@ function Page() {
       });
     }
   };
+  const handleUploadfile =async ()=>{
+    const form = new FormData();
+    form.append('file',file as Blob)
+    const headers = {
+    'Content-Type': 'multipart/form-data'
+  }
+    const url =config.defaulturl + "/api/cart/file";
+    await axios.post(url,form,{headers})
+  }
+  const handleOrder= async ()=>{
+    if(file){
+
+      const url = config.defaulturl + "/api/cart/order"
+       const headers = {
+        Authorization: "Bearer " + localStorage.getItem(config.hoken_memter),
+      };
+      const payload = {
+        slipName : file.name
+      }
+      const respone = await axios.post(url,payload,{headers})
+      if (respone.status === 200){
+
+      }
+    }
+  }
+
+
   const isLoading = loading.member || loading.cart;
   const uiCart = () => {
     return (
@@ -396,7 +432,7 @@ function Page() {
                   label="ທີ່ຢູ່ຈັດສົ່ງ *"
                   onChange={(e) => setPhone(e.target.value)}
                 />
-                <Input label="ເອກະສານການໂອນ *" type="file" />
+                <Input label="ເອກະສານການໂອນ *" type="file" onChange={(e)=>handleChooseFile(e.target.files)}/>
                 <div className="pt-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     ໝາຍເຫດເພີ່ມເຕີມ
@@ -427,6 +463,7 @@ function Page() {
                         src={qrImage}
                         alt="QR Code for payment"
                         className="w-48 h-48 object-contain border rounded-lg shadow-sm"
+                      
                       />
                       <p className="mt-3 text-sm text-gray-600">
                         ສະແກນ QR Code ເພື່ອຊໍາລະເງິນ
