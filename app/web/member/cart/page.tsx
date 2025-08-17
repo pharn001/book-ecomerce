@@ -6,8 +6,10 @@ import { cartInterface } from "@/app/interface/Cart";
 import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import Swal from "sweetalert2";
-
+import { useRouter } from "next/navigation";
 function Page() {
+  const router=useRouter()
+
   const [carts, setCarts] = useState<cartInterface[]>([]);
   const [memberId, setMemberId] = useState("");
   const [totalAmount, setTotalAmount] = useState(0);
@@ -215,6 +217,7 @@ function Page() {
     await handleupdateMember();
     await  handleUploadfile();
     await handleOrder()
+    router.push("/web/member/cart/success");
   };
   const handleupdateMember = async()=>{
      try {
