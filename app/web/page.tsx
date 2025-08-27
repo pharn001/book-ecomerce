@@ -23,6 +23,7 @@ export default function Home() {
   const readToken = async () => {
     const token = localStorage.getItem(config.hoken_memter) || "";
     setToken(token);
+    if(token === "")return;
     try {
       const url = config.defaulturl + "/api/member/info";
       const headers = {

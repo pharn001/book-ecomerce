@@ -6,8 +6,8 @@ export interface OrderInterface{
     memeber:MemberInterface;
     status:string;
     createAt:string;
-    slipimage:string;
-    trackCode:string;
+    slipImage:string;
+    trackcode:string;
     remark:string;
     customerName:string;
     customerAddress:string;

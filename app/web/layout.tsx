@@ -28,7 +28,7 @@ export default function WebMemberLayout({
       const response = await axios.get(url, { headers });
       
       if (response.status === 200) {
-        setName(response.data.name);
+        setName(response.data.username);
       }
     } catch (error) {
       Swal.fire({
@@ -86,7 +86,7 @@ export default function WebMemberLayout({
             <i className="fa fa-home mr-1"></i>
             ໜ້າຫຼັກ
           </Link>
-          <Link href="web/member/history" className="text-white">
+          <Link href="/web/member/history" className="text-white">
           <i className="fa fa-file-alt"></i>
           ຕິດຕາມກັນສັ່ງຊື້
           </Link>

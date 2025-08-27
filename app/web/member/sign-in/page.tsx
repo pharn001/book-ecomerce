@@ -48,10 +48,10 @@ export default function SignInPage() {
         <p>ກະລຸນາໃສ່ຂໍ້ມູນສຳລັບການເຂົ້າລະບົບ</p>
        <form onSubmit={(e)=>handleSubmit(e)}>
             <div className="space-y-4">
-                <Input label="ຊື່" placeholder="ຊື່" onChange={(e)=>setUsername(e.target.value)}/>
+                <Input label="ຊື່" placeholder="ຊື່" onChange={(e)=>setUsername(e.target.value)} required/>
             </div>
             <div className="space-y-4">
-                <Input label="ລະຫັດຜ່ານ" placeholder="ລະຫັດຜ່ານ" onChange={(e)=>setPassword(e.target.value)}/>
+                <Input label="ລະຫັດຜ່ານ" placeholder="ລະຫັດຜ່ານ" onChange={(e)=>setPassword(e.target.value)} required/>
             </div>
             <Button label="ເຂົ້າລະບົບ" icon="fa fa-lock" type="submit"/>
        </form>
