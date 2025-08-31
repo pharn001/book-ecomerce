@@ -11,7 +11,7 @@ import Image from "next/image";
 import { BookInterface } from "@/app/interface/book";
 import { Errorinterface } from "@/app/interface/Errorinterface";
 
-export default function page() {
+export default function Page() {
   
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [id, setId] = useState("");
