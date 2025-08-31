@@ -3,6 +3,8 @@ import { AdminData, AdminFormData } from "./useAdminData";
 import Swal from "sweetalert2";
 import { config } from "@/app/config";
 import axios from "axios";
+import { Errorinterface } from "@/app/interface/Errorinterface";
+import { Admininterface } from "@/app/interface/Admininterface";
 
 // ຈັດການພວກ  form logic & validation
 export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
@@ -83,16 +85,16 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
                 setIsSubmitting(false);
                 resetForm();
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             Swal.fire({
                 title: "Error",
-                text: error.message || "Something went wrong",
+                text:  (error as Errorinterface).message || "Something went wrong",
                 icon: "error",
             });
             setIsSubmitting(false)
         }
     }
-    const handledelete = async (admin: any) => {
+    const handledelete = async (admin: Admininterface) => {
         console.log(admin)
       
         const button = await Swal.fire({
@@ -120,10 +122,10 @@ export const useAdminForm = (onSuccess: (admin: AdminData) => void) => {
                         level: admin.level,
                     });               
                 }
-            } catch (error: any) {
+            } catch (err: unknown) {
                 Swal.fire({
                     title: "error",
-                    text: error.message || "ບໍ່ສາມາດລົບຜູ້ໃຊ້ງານ",
+                    text:  (err as Errorinterface).message || "ບໍ່ສາມາດລົບຜູ້ໃຊ້ງານ",
                     icon: "error"
                 })
             }

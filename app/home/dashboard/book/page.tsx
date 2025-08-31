@@ -109,10 +109,10 @@ const deletebook = async (e: string)=> {
         });
         factdata();
       }
-    } catch (error: any) {
+    } catch (err: unknown) {
       Swal.fire({
         title: "error",
-        text: error.message,
+        text:  (err as Errorinterface).message,
         icon: "error",
       });
     }

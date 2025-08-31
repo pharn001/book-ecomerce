@@ -3,6 +3,7 @@ import { config } from "@/app/config";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import { BookInterface } from "@/app/interface/book";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 
 export const useDataBook =  () => {
     const [book, setBook] = useState<BookInterface[]>([]);
@@ -20,12 +21,12 @@ export const useDataBook =  () => {
                 setLoading(false);
               }
 
-        } catch (err:any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            setError( (err as Errorinterface).message);
             setLoading(false);
             Swal.fire({
                 icon: "error",
-                title: err.message,
+                title:  (err as Errorinterface).message,
                 text: "Something went wrong!",
                 showConfirmButton: false,
             });

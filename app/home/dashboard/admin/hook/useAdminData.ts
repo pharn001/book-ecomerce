@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { config } from "@/app/config";
 import Swal from "sweetalert2";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 
 export interface AdminData {
   id: string;
@@ -33,11 +34,11 @@ export const useAdminData = () => {
       if (response.status === 200) {
         setData(response.data);
       }
-    } catch (err: any) {
-      setError(err.message || "Failed to fetch data");
+    } catch (err: unknown) {
+      setError( (err as Errorinterface).message || "Failed to fetch data");
       Swal.fire({
         title: "Error",
-        text: err.message || "Something went wrong",
+        text:  (err as Errorinterface).message || "Something went wrong",
         icon: "error",
       });
     } finally {

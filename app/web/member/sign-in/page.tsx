@@ -2,6 +2,7 @@
 import { config } from "@/app/config";
 import Button from "@/app/home/component/form/button";
 import Input from "@/app/home/component/form/input";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 import axios from "axios";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -33,11 +34,11 @@ export default function SignInPage() {
                window.location.href = "/web";
             });
         }
-    } catch (err:any) {
+    } catch (err:unknown) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: err.message || 'Something went wrong!',
+            text: (err as Errorinterface).message || 'Something went wrong!',
             confirmButtonText: 'OK'
         })
     }

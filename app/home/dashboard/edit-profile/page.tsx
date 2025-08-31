@@ -1,11 +1,12 @@
 "use client"
 import { config } from '@/app/config';
+import { Errorinterface } from '@/app/interface/Errorinterface';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 
 
-function Page() {
+export default function Page() {
   const [formData, setFormData] = useState({
     name: '',
     username: '',
@@ -15,7 +16,7 @@ function Page() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -23,7 +24,7 @@ function Page() {
     }));
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -39,12 +40,6 @@ function Page() {
         color: '#fff',
         confirmButtonColor: '#6366f1',
         iconColor: '#f87171',
-        backdrop: `
-          rgba(0,0,0,0.7)
-          url("/images/nyan-cat.gif")
-          left top
-          no-repeat
-        `
       });
       setIsSubmitting(false);
       return ;
@@ -75,10 +70,10 @@ function Page() {
     console.log(formData)
 
     setIsSubmitting(false);
-    } catch (error:any) {
+    } catch (err: unknown) {
       Swal.fire({
         title: 'ຜິດພາດ!',
-        text: 'ບໍ່ສາມາດປ່ຽນແປງໄດ້ ກະລຸນາລອງໃໝ່' + error,
+        text: 'ບໍ່ສາມາດປ່ຽນແປງໄດ້ ກະລຸນາລອງໃໝ່' +  (err as Errorinterface),
         icon: 'error',
         background: '#1e293b',
         color: '#fff',
@@ -246,5 +241,3 @@ function Page() {
     </div>
   );
 }
-
-export default Page;

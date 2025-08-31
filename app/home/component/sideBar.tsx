@@ -7,6 +7,7 @@ import { config } from "@/app/config";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Navigation from "./Navigation";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 
 
 export default function SideBar() {
@@ -35,11 +36,11 @@ export default function SideBar() {
       } else {
         throw new Error("Failed to fetch data");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: err.message,
+        text:  (err as Errorinterface).message,
         confirmButtonText: "OK",
         background: '#1f2937',
         color: '#fff',

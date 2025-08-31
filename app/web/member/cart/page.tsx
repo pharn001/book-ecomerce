@@ -7,6 +7,7 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 function Page() {
   const router=useRouter()
 
@@ -50,11 +51,11 @@ function Page() {
       if (response.status === 200 && response.data?.id) {
         setMemberId(response.data.id);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error fetching member data:", err);
       Swal.fire({
         title: "Error",
-        text: err.message || "ບໍ່ສາມາດດຶງຂໍ້ມູນສະມາຊິກ",
+        text:  (err as Errorinterface).message || "ບໍ່ສາມາດດຶງຂໍ້ມູນສະມາຊິກ",
         icon: "error",
       });
     } finally {
@@ -76,8 +77,8 @@ function Page() {
       if (response.status === 200 && response.data?.qrImage) {
         setQrImage(response.data.qrImage);
       }
-    } catch (error: any) {
-      console.error("Error fetching QR image:", error);
+    } catch (error: unknown) {
+     
       setQrImage("");
       Swal.fire({
         title: "Warning",
@@ -101,12 +102,11 @@ function Page() {
       if (response.status === 200) {
         setCarts(Array.isArray(response.data) ? response.data : []);
       }
-    } catch (err: any) {
-      console.error("Error fetching cart data:", err);
+    } catch (err: unknown) {
       setCarts([]);
       Swal.fire({
         title: "Error",
-        text: err.message || "ບໍ່ສາມາດດຶງຂໍ້ມູນກະຕ່າ",
+        text:  (err as Errorinterface).message || "ບໍ່ສາມາດດຶງຂໍ້ມູນກະຕ່າ",
         icon: "error",
       });
     } finally {
@@ -145,11 +145,11 @@ function Page() {
           });
         }
       }
-    } catch (error: any) {
-      console.error("Error deleting cart item:", error);
+    } catch (err: unknown) {
+      console.error("Error deleting cart item:", err);
       Swal.fire({
         title: "Error",
-        text: error.message || "ມີບາງຢ່າງຜິດພາດ",
+        text:  (err as Errorinterface).message || "ມີບາງຢ່າງຜິດພາດ",
         icon: "error",
         timer: 2000,
       });
@@ -164,11 +164,11 @@ function Page() {
       if (response.status === 200) {
         await fetchCartData();
       }
-    } catch (error: any) {
-      console.error("Error updating quantity:", error);
+    } catch (err: unknown) {
+      console.error("Error updating quantity:", err);
       Swal.fire({
         title: "Error",
-        text: error.message || "ບໍ່ສາມາດເພີ່ມຈຳນວນໄດ້",
+        text:  (err as Errorinterface).message || "ບໍ່ສາມາດເພີ່ມຈຳນວນໄດ້",
         icon: "error",
         timer: 1500,
       });
@@ -183,8 +183,8 @@ function Page() {
       if (response.status === 200) {
         await fetchCartData();
       }
-    } catch (error: any) {
-      console.error("Error updating quantity:", error);
+    } catch (err:unknown) {
+      console.error("Error updating quantity:", err);
       Swal.fire({
         title: "Warning",
         text: "ຈຳນວນສິນຄ້າຕ້ອງມີຢ່າງນ້ອຍ 1 ຊິ້ນ",
@@ -239,10 +239,10 @@ function Page() {
           text:"ການສັ່ງຊື້ສຳເລັດແລ້ວ!!"
         })
       }
-    } catch (e: any) {
+    } catch (err: unknown) {
       Swal.fire({
         title: "error",
-        text: e.message,
+        text:  (err as Errorinterface).message,
         icon: "error",
       });
     }

@@ -4,6 +4,7 @@ import { AdminData, useAdminData } from "./hook/useAdminData";
 import { useAdminForm } from "./hook/useAdminForm";
 import AdminTable from "@/app/home/component/AdminTable";
 import AdminForm from "@/app/home/component/AdminForm";
+import { Admininterface } from "@/app/interface/Admininterface";
 
 function Admin() {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -32,7 +33,7 @@ function Admin() {
     setEditMode(admin);
     openModal();
   };
-const handleDelete = async (admin:any) => {
+const handleDelete = async (admin:Admininterface) => {
  handledelete(admin);
 }
   return (
