@@ -2,7 +2,7 @@
 import  { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "@/app/config";
-import { usedatabook } from "./hook/usedatabook";
+import { useDataBook } from "./hook/usedataBook";
 import Button from "../../component/form/button";
 import Modal from "../../component/modal";
 import Input from "../../component/form/input";
@@ -25,7 +25,7 @@ function page() {
   const [modal, setModal] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
 
-const { books, loading,factdata } = usedatabook();
+const { book, loading,factdata } = useDataBook();
 
   useEffect(() => {
     factdata();
@@ -174,7 +174,7 @@ const deletebook = async (e: string)=> {
                 </tr>
               </thead>
               <tbody className="tablebody">
-                {books.map((book: BookInterface) => (
+                {book.map((book: BookInterface) => (
                   <tr key={book.id}>
                     <td className="tabletd">
                       {book.image ? (

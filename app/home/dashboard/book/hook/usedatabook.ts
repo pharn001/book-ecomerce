@@ -1,33 +1,37 @@
-import Swal from "sweetalert2";
-import  { useEffect, useState } from "react";
 import axios from "axios";
 import { config } from "@/app/config";
+import { useState } from "react";
+import Swal from "sweetalert2";
 import { BookInterface } from "@/app/interface/book";
-export const usedatabook = () => {
 
-    const [loading, setLoading] = useState<boolean>(true)
-    const [books, setBooks] = useState<BookInterface[]>([]);
-    const factdata = async () => {
+export const useDataBook =  () => {
+    const [book, setBook] = useState<BookInterface[]>([]);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
+    
+    const factdata = async ()=>{
         try {
             setLoading(true);
-            const url = `${config.defaulturl}/api/book`;
-            const response = await axios.get(url);
-            if (response.status === 200) {
-                setBooks(response.data);
-            }
-        } catch (error: any) {
+            setError(null);
+           const url = config.defaulturl+"/api/book";
+           const response = await axios.get(url);
+              if (response.status === 200) {
+                setBook(response.data);
+                setLoading(false);
+              }
+
+        } catch (err:any) {
+            setError(err.message);
+            setLoading(false);
             Swal.fire({
                 icon: "error",
-                title: error.message,
+                title: err.message,
                 text: "Something went wrong!",
                 showConfirmButton: false,
             });
-            setLoading(false);
-        } finally {
-            setLoading(false)
+            
         }
     }
-
-
-    return { loading, setLoading, books, setBooks , factdata };
+ 
+    return { book, loading, error ,factdata};
 }

@@ -25,6 +25,7 @@ export default function SideBar() {
       setIsLoading(true);
       const url = config.defaulturl + "/api/admin/info";
       const token = localStorage.getItem(config.hoken);
+      if(!token) return router.push("/home/sign-in");
       const headers = {
         Authorization:  `Bearer ${token}`,
       };

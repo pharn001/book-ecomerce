@@ -6,7 +6,7 @@ import SideBar from "../component/sideBar";
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode;    
 }>) {
   return (
     

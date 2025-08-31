@@ -1,31 +1,49 @@
 "use client";
-
-import { useState } from "react";
-import Input from "../component/form/input";
+import { config } from "@/app/config";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
 export default function DashboardPage() {
-    const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-  });
-   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const [totalMembers, setTotalMembers] = useState(0);
+  const handlelist = async()=>{
+    try {
+      
+    const url = config.defaulturl + "/api/dashboard/list";
+    const res = await axios.get(url);
+    if(res.status === 200){
+      console.log(res.data)
+      setTotalIncome(res.data.sumIncome);
+      setTotalOrders(res.data.countOrder);
+      setTotalMembers(res.data.countMember);
+    }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "ຜິດພາດ",
+        text: "ບໍ່ສາມາດເຂົ້າໄປໄດ້",
+      })
+    }
+  }
+  useEffect(()=>{
+    handlelist();
+  },[])
   return (
     <>
-      <h1>Dashboard</h1>
-      <div className=" bg-gray-100  w-[300px] h-[300px] flex items-center justify-center ">
-        <i className="fa-solid fa-circle-notch text-gray-700 text-[40px] animate-spin"></i>
-      </div>
-      <Input 
-        label="Name"
-        name="name"
-        required={true}
-        value={formData.name}
-        icon="fa-solid fa-user"
-        onChange={handleChange}
-        placeholder="Enter your name"
-      />
+     <div>
+      <div>ລາຍໄດ້</div>
+      <div>{totalIncome}</div>
+     </div>
+     <div>
+      <div>ລາຍການຊື້</div>
+      <div>{totalOrders}</div>
+     </div>
+     <div>
+      <div>ສະມາຊິກ</div>
+      <div>{totalMembers}</div>
+     </div>
     </>
   );
 }
