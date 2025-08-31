@@ -12,10 +12,6 @@ import { BookInterface } from "@/app/interface/book";
 function page() {
   
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-
-
-
-
   const [id, setId] = useState("");
   const [price, setPrice] = useState<number>(0);
   const [name, setName] = useState("");
@@ -27,9 +23,7 @@ function page() {
 
 const { book, loading,factdata } = useDataBook();
 
-  useEffect(() => {
-    factdata();
-  }, []);
+
   
   const hadlesubmit = async () => {
     try {
@@ -135,7 +129,9 @@ const deletebook = async (e: string)=> {
       console.log(files);
     }
   };
- 
+   useEffect(() => {
+    factdata();
+  }, []);
   return (
     <div className="h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto rounded-lg shadow-lg p-6">

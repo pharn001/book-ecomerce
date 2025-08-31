@@ -14,9 +14,6 @@ export default function SideBar() {
   const [level, setLevel] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   
-  useEffect(() => {
-    factData();
-  }, []);
 
   const router = useRouter();
   
@@ -82,6 +79,9 @@ export default function SideBar() {
       router.push("/sign-in");
     }
   };
+  useEffect(() => {
+    factData();
+  }, []);
 
   return (
     <div className="flex flex-col h-screen bg-gray-800 text-white w-64 shadow-xl">
