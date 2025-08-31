@@ -247,9 +247,10 @@ function Page() {
       });
     }
   }
-  const handleChooseFile= (files:any) => {
-    if(files.length > 0){
-      setFile(files[0]);
+  const handleChooseFile= (files:unknown) => {
+    const fileList:FileList = files as FileList;
+    if(fileList.length > 0){
+      setFile(fileList[0]);
     }
     try {
     } catch (err: unknown) {
