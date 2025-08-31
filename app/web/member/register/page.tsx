@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import Swal from 'sweetalert2'
 import { config } from '@/app/config'
 import axios from 'axios'
+import { Errorinterface } from '@/app/interface/Errorinterface'
 
 function RegisterPage() {
     const [loading, setLoading] = useState(false);
@@ -51,10 +52,10 @@ function RegisterPage() {
                 });
                 setLoading(false);
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             Swal.fire({
                 title: 'ຂໍອະໄພ',
-                text: err.message,
+                text: (err as Errorinterface).message,
                 icon: 'error',
             });
             setLoading(false);

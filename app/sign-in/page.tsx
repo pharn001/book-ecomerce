@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { config } from "../config";
 import { useRouter } from "next/navigation";
+import { Errorinterface } from "../interface/Errorinterface";
 export default function SignInPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,12 +23,12 @@ export default function SignInPage() {
       const response = await axios.post(urlSignIn, payload);
       router.push("/home/dashboard");
         localStorage.setItem(config.hoken, response.data.token);     
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error during sign-in:", error);
       Swal.fire({
         icon: "error",
         title: "Sign In Failed",
-        text: error || "An error occurred during sign-in.",
+        text: (error as Errorinterface).message || "An error occurred during sign-in.",
       })
     }
   }

@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import Link from "next/link";
 import { useDataBook } from "../home/dashboard/book/hook/databook";
+import { Errorinterface } from "../interface/Errorinterface";
 export default function Home() {
   const { book, loading ,factdata} = useDataBook();
   const [token, setToken] = useState("");
@@ -39,10 +40,10 @@ export default function Home() {
           icon: "error",
         });
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       Swal.fire({
         title: "Error",
-        text: error.message || "ບໍ່ສາມາດດຶງຂໍ້ມູນ",
+        text: (error as Errorinterface).message || "ບໍ່ສາມາດດຶງຂໍ້ມູນ",
         icon: "error",
       });
     }

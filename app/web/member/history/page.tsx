@@ -4,6 +4,7 @@ import { config } from '@/app/config';
 import { OrderInterface } from '@/app/interface/order';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { Errorinterface } from '@/app/interface/Errorinterface';
 
 export default function OrderHistoryPage() {
     const [orders, setOrders] = useState<OrderInterface[]>([]);
@@ -35,11 +36,11 @@ export default function OrderHistoryPage() {
 
                 setOrders(processedOrders);
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             Swal.fire({
                 title: "Error",
                 icon: "error",
-                text: err.message,
+                text: (err as Errorinterface).message,
                 timer: 1500
             })
         }
