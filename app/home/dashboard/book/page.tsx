@@ -7,9 +7,11 @@ import Button from "../../component/form/button";
 import Modal from "../../component/modal";
 import Input from "../../component/form/input";
 import Swal from "sweetalert2";
+import Image from "next/image";
 import { BookInterface } from "@/app/interface/book";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 
-function page() {
+function Page() {
   
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [id, setId] = useState("");
@@ -61,10 +63,11 @@ const { book, loading,factdata } = useDataBook();
         setDescription("");
       }
       console.log(response.status);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const err = error as Errorinterface;
       Swal.fire({
         title: "Error",
-        text: error.message,
+        text: err.message,
         icon: "error",
       });
       setIsSubmit(false);
@@ -123,10 +126,11 @@ const deletebook = async (e: string)=> {
     setModal(true);
     setImageUrl(book.image as string);
   };
-  const choosefile = (files: any) => {
-    if (files.length > 0) {
-      setImgfile(files[0]);
-      console.log(files);
+  const choosefile = (files:unknown) => {
+    const chouse:FileList = files as FileList;
+    if (chouse.length > 0) {
+      setImgfile(chouse[0]);
+     
     }
   };
    useEffect(() => {
@@ -253,7 +257,7 @@ const deletebook = async (e: string)=> {
               </div>
               <div className="space-y-4">
                {imageUrl ? (
-                <img
+                <Image width={64} height={64}
                   src={`${config.defaulturl}/public/upload/${imageUrl}`}
                   alt="Book Cover"
                   className="w-16 h-16 object-cover rounded mb-2"
@@ -263,7 +267,7 @@ const deletebook = async (e: string)=> {
                   label="ຮູບພາບ"
                   name="imgfile"
                   type="file"
-                  onChange={(e) => choosefile(e.target.files )}
+                  onChange={(e) => choosefile(e.target.files)}
                 />
               </div>
               <div className="button">
@@ -282,4 +286,4 @@ const deletebook = async (e: string)=> {
   );
 }
 
-export default page;
+export default Page;
