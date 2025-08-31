@@ -5,6 +5,7 @@ import { config } from "../config";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Button from "../home/component/form/button";
+import { Errorinterface } from "../interface/Errorinterface";
 
 export default function WebMemberLayout({
   children,
@@ -30,11 +31,11 @@ export default function WebMemberLayout({
       if (response.status === 200) {
         setName(response.data.username);
       }
-    } catch (error) {
+    } catch (err : unknown) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Failed to fetch member info!",
+        text: (err as Errorinterface ).message||"Failed to fetch member info!",
         confirmButtonText: "OK",
         background: "#f0f9ff",
         color: "#0369a1",

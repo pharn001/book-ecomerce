@@ -1,5 +1,6 @@
 "use client";
 import { config } from "@/app/config";
+import { Errorinterface } from "@/app/interface/Errorinterface";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -19,10 +20,10 @@ export default function DashboardPage() {
       setTotalOrders(res.data.countOrder);
       setTotalMembers(res.data.countMember);
     }
-    } catch (error) {
+    } catch (err:unknown) {
       Swal.fire({
         icon: "error",
-        title: "ຜິດພາດ",
+        title: (err as Errorinterface ).message||"ຜິດພາດ",
         text: "ບໍ່ສາມາດເຂົ້າໄປໄດ້",
       })
     }

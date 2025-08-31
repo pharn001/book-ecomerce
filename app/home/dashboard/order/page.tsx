@@ -6,7 +6,8 @@ import React, { useEffect, useState } from 'react'
 import Modal from '../../component/modal'
 import Input from '../../component/form/input'
 import Swal from 'sweetalert2'
-
+import { Errorinterface } from '@/app/interface/Errorinterface'
+import Image from 'next/image'
 
 export default function OrderListPage() {
     const [orders, setOrders] = useState<OrderInterface[]>([])
@@ -38,11 +39,11 @@ export default function OrderListPage() {
 
                 setOrders(processedOrders);
             }
-        } catch (error) {
+        } catch (err:unknown) {
             Swal.fire({
                 title: 'Error',
                 icon: 'error',
-                text: 'Failed to load orders. Please try again later.',
+                text: (err as Errorinterface).message || 'Failed to load orders. Please try again later.',
                 timer: 2000
             })
         } finally {
@@ -83,11 +84,11 @@ export default function OrderListPage() {
                     handleModalClose()
                 }
             }
-        } catch (error) {
+        } catch (err: unknown) {
             Swal.fire({
                 title: 'Error',
-                icon: 'error',
-                text: 'Failed to cancel order. Please try again later.',
+                icon: "error",
+                text: (err as Errorinterface).message  ||'error',
                 timer: 2000
             })
         }
@@ -117,11 +118,11 @@ export default function OrderListPage() {
                     handleModalClose()
                 }
             }
-        } catch (error) {
+        } catch (err: unknown) {
             Swal.fire({
                 title: 'Error',
                 icon: 'error',
-                text: 'Failed to cancel order. Please try again later.',
+                text: (err as Errorinterface).message  ||'Failed to cancel order. Please try again later.',
                 timer: 2000
             })
         }
@@ -147,11 +148,11 @@ export default function OrderListPage() {
                     handleModalClose()
                 }
             
-        } catch (error) {
+        } catch (err:unknown) {
             Swal.fire({
                 title: 'Error',
                 icon: 'error',
-                text: 'Failed to cancel order. Please try again later.',
+                text: (err as Errorinterface).message,
                 timer: 2000
             })
         }
@@ -206,7 +207,7 @@ export default function OrderListPage() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             <button
-                                                onClick={(e) => handleModalShow(order)}
+                                                onClick={() => handleModalShow(order)}
                                                 type='button'
                                                 className="text-blue-600 hover:text-blue-800 flex items-center gap-1"
                                             >
@@ -239,7 +240,7 @@ export default function OrderListPage() {
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 ເອກະສານການໂອນ
                             </label>
-                           <img src={config.defaulturl + '/public/upload/slip/'+ order?.slipImage} alt="slip" width={100} />
+                           <Image src={config.defaulturl + '/public/upload/slip/'+ order?.slipImage} alt="slip" width={100} />
                         </div>
                         <div>
                             <table>
