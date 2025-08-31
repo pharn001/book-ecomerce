@@ -8,6 +8,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { Errorinterface } from "@/app/interface/Errorinterface";
+import Image from "next/image";
 function Page() {
   const router=useRouter()
 
@@ -82,7 +83,7 @@ function Page() {
       setQrImage("");
       Swal.fire({
         title: "Warning",
-        text: "ບໍ່ສາມາດດຶງ QR Code ໄດ້",
+        text: (error as Errorinterface).message||"ບໍ່ສາມາດດຶງ QR Code ໄດ້",
         icon: "warning",
         timer: 2000,
       });
@@ -320,7 +321,7 @@ function Page() {
                         className="hover:bg-gray-50 transition-colors"
                       >
                         <td className="py-3 px-4 border">
-                          <img
+                          <Image width={64} height={64}
                             src={`${config.defaulturl}/public/upload/${cart.book.image}`}
                             alt={cart.book.name}
                             className="w-16 h-16 object-cover rounded-lg mx-auto"
@@ -463,7 +464,7 @@ function Page() {
                     </div>
                   ) : qrImage ? (
                     <div className="flex flex-col items-center">
-                      <img
+                      <Image width={192} height={192}
                         src={qrImage}
                         alt="QR Code for payment"
                         className="w-48 h-48 object-contain border rounded-lg shadow-sm"

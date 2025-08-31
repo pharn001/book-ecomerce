@@ -74,10 +74,10 @@ export default function Home() {
           });
         }
       }
-    } catch (error) {
+    } catch (error: unknown) {
       Swal.fire({
         title: "Error",
-        text: "ບໍ່ສາມາດດຶງຂໍ້ມູນກະຕ່າ",
+        text: (error as Errorinterface).message|| "ບໍ່ສາມາດດຶງຂໍ້ມູນກະຕ່າ",
         icon: "error",
       });
     }
@@ -93,10 +93,10 @@ export default function Home() {
       if (response.status === 200) {
         fectDataCart();
       }
-    } catch (error) {
+    } catch (error : unknown) {
       Swal.fire({
         title: "Error",
-        text: "ບໍ່ສາມາດດຶງຂໍ້ມູນກະຕ່າ",
+        text:(error as Errorinterface).message|| "ບໍ່ສາມາດດຶງຂໍ້ມູນກະຕ່າ",
         icon: "error",
       });
     }
@@ -142,7 +142,7 @@ export default function Home() {
                   {token ? (
                     <>
                       <button
-                        onClick={(e) => handleaddCart(book.id)}
+                        onClick={() => handleaddCart(book.id)}
                         className="cursor-pointer bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300 w-full flex items-center justify-center"
                       >
                         <i className="fa fa-shopping-cart"></i>
