@@ -103,10 +103,10 @@ export default function Page() {
           confirmPassword: ''
         })
       }
-    } catch (err:any) {
+    } catch (err:unknown) {
       Swal.fire({
         title:'ຜິດພາດ!',
-        text: err.message,
+        text: (err as Errorinterface).message,
         icon: 'error',
         timer: 3000,
       })

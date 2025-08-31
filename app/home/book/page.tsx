@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Input from "../component/form/input";
 import useInput from "./hook/useInput";
 import axios from "axios";
-function page() {
+export default function Page() {
   const [value, setValue] = useState("");
   const [data, setData] = useState(null);
   const debouncedValue = useInput(value, 1000);
@@ -30,4 +30,4 @@ function page() {
   );
 }
 
-export default page;
+

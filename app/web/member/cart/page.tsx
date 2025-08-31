@@ -252,10 +252,10 @@ function Page() {
       setFile(files[0]);
     }
     try {
-    } catch (e: any) {
+    } catch (err: unknown) {
       Swal.fire({
         title: "error",
-        text: e.message,
+        text:  (err as Errorinterface).message,
         icon: "error",
       });
     }

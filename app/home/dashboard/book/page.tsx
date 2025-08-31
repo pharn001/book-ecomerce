@@ -195,7 +195,7 @@ const deletebook = async (e: string)=> {
                       <div className="">
                         <button
                           className="text-blue-600   mr-2"
-                          onClick={(e) => handledit(book)}
+                          onClick={() => handledit(book)}
                         >
                           <i className="fa fa-edit"></i>
                           edit
