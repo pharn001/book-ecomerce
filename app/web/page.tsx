@@ -6,9 +6,9 @@ import { cartInterface } from "../interface/Cart";
 import Swal from "sweetalert2";
 import axios from "axios";
 import Link from "next/link";
-import { usedatabook } from "../home/dashboard/book/hook/usedatabook";
+import { useDataBook } from "../home/dashboard/book/hook/databook";
 export default function Home() {
-  const { books, loading ,factdata} = usedatabook();
+  const { book, loading ,factdata} = useDataBook();
   const [token, setToken] = useState("");
   const [meberId, setMemberId] = useState("");
   const [cats, setCats] = useState<cartInterface[]>([]);
@@ -119,7 +119,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {books.map((book: BookInterface) => (
+            {book.map((book: BookInterface) => (
               <div
                 key={book.id}
                 className="bg-white border border-gray-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 transform "
