@@ -11,7 +11,7 @@ import Image from "next/image";
 import { BookInterface } from "@/app/interface/book";
 import { Errorinterface } from "@/app/interface/Errorinterface";
 
-function Page() {
+export default function page() {
   
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const [id, setId] = useState("");
@@ -286,4 +286,3 @@ const deletebook = async (e: string)=> {
   );
 }
 
-export default Page;
