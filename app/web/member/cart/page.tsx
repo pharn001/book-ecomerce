@@ -315,7 +315,7 @@ function Page() {
                 </thead>
                 <tbody>
                   {carts.length > 0 ? (
-                    carts.map((cart) => (
+                    carts?.map((cart) => (
                       <tr
                         key={cart.id}
                         className="hover:bg-gray-50 transition-colors"

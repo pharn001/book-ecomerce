@@ -174,7 +174,7 @@ const deletebook = async (e: string)=> {
                 </tr>
               </thead>
               <tbody className="tablebody">
-                {book.map((book: BookInterface) => (
+                {book?.map((book: BookInterface) => (
                   <tr key={book.id}>
                     <td className="tabletd">
                       {book.image ? (

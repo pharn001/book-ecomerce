@@ -69,7 +69,7 @@ export default function OrderHistoryPage() {
                             <p className="text-gray-500">ທ່ານຍັງບໍ່ໄດ້ມີການສັ່ງຊື້ໃດໆໃນລະບົບ</p>
                         </div>
                     ) : (
-                        orders.map((order, index) => (
+                        orders?.map((order, index) => (
                             <div 
                                 key={order.id ?? index} 
                                 className={`bg-white rounded-xl shadow-md overflow-hidden transition-all duration-300 ${expandedOrder === index ? 'ring-2 ring-indigo-500' : ''}`}
@@ -153,7 +153,7 @@ export default function OrderHistoryPage() {
                                                         </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                        {order.orderDetail.map((detail, idx) => (
+                                                        {order?.orderDetail?.map((detail, idx) => (
                                                             <tr key={detail.id ?? idx} className="hover:bg-gray-50 transition-colors">
                                                                 <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-800">{detail.Book.isdn}</td>
                                                                 <td className="px-4 py-3 text-sm text-gray-600">{detail.Book.name}</td>

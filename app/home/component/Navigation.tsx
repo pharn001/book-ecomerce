@@ -40,7 +40,7 @@ function Navigation() {
       </Link>
 
       {/* Menu Items */}
-      {item.map((i, index) => {
+      {item?.map((i, index) => {
         const hoverKey = `item-${index}`;
         
         return (

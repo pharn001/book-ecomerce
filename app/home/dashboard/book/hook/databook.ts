@@ -18,6 +18,8 @@ export const useDataBook =  () => {
            const response = await axios.get(url);
               if (response.status === 200) {
                 setBook(response.data);
+                console.log("API book response:", response.data);
+
                 setLoading(false);
               }
 

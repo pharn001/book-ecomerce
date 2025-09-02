@@ -43,7 +43,7 @@ const AdminTable :React.FC<AdminTableProps> = ({
                         </tr>
                       </thead>
                       <tbody className="tablebody">
-                        {data.map((item,index) => (
+                        {data?.map((item,index) => (
                           <tr key={item.id} className="hover:bg-gray-50">
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                               {index + 1}

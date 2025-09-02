@@ -4,6 +4,7 @@ import { BookInterface } from "@/app/interface/book";
 import { useEffect, useState } from "react";
 import { cartInterface } from "../interface/Cart";
 import Swal from "sweetalert2";
+import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
 import { useDataBook } from "../home/dashboard/book/hook/databook";
@@ -120,13 +121,13 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {book.map((book: BookInterface) => (
+            {book?.map((book: BookInterface) => (
               <div
                 key={book.id}
                 className="bg-white border border-gray-200 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 hover:-translate-y-1 transform "
               >
                 <div className="flex justify-center mb-4">
-                  <img
+                  <Image  width={200} height={200}
                     className="w-full h-48 object-contain rounded-lg bg-gray-100 p-4"
                     src={`${config.defaulturl}/public/upload/${book.image}`}
                     alt={book.name}

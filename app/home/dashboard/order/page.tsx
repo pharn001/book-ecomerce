@@ -183,7 +183,7 @@ export default function OrderListPage() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {orders.map((order) => (
+                                {orders?.map((order) => (
                                     <tr key={order.id} className="hover:bg-gray-50 transition-colors">
                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                             {new Date(order.createAt).toLocaleDateString()}
@@ -254,7 +254,7 @@ export default function OrderListPage() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {order?.orderDetail.map((item) => (
+                                    {order?.orderDetail?.map((item) => (
                                         <tr key={item.id}>
                                             <td className="px-4 py-2 border">{item.Book.isdn}</td>
                                             <td className="px-4 py-2 border">{item.Book.name}</td>
